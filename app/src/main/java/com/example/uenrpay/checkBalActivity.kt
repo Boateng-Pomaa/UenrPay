@@ -4,10 +4,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
-import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
+import com.example.uenrpay.Data.Api.ApiList
 import com.example.uenrpay.Data.Api.ApiService
 import com.example.uenrpay.Data.model.FeeResponse
+import com.example.uenrpay.Data.repository.ThirdRepository
+import com.example.uenrpay.ui.base.ThirdViewModelFactory
+import com.example.uenrpay.ui.main.viewModel.ThirdViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -19,23 +23,28 @@ import kotlin.coroutines.CoroutineContext
 
 
 class CheckBalActivity : AppCompatActivity() , CoroutineScope {
+    private lateinit var viewModel: ThirdViewModel
+    private lateinit var viewModelFactory: ThirdViewModelFactory
     private var job: Job = Job()
 
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main + job
 
-    override fun onDestroy() {
-        super.onDestroy()
-        job.cancel()
-    }
-    var iD = ""
-    var Index_Number = findViewById<EditText>(R.id.editTextTextPersonName4)
+
+    var id = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_check_bal)
+        val apilist = ApiList.loginApiCall()
+        val mainrepo = ThirdRepository(apilist)
+        viewModelFactory = ThirdViewModelFactory(mainrepo)
+        viewModel = ViewModelProvider(this,viewModelFactory).get(ThirdViewModel::class.java)
+
+
+
         val d = intent
-        iD = d.getStringExtra("Index_Number").toString()
+        id = d.getStringExtra("Index_Number").toString()
         val check = findViewById<Button>(R.id.button7)
 
         check.setOnClickListener {
@@ -45,7 +54,7 @@ class CheckBalActivity : AppCompatActivity() , CoroutineScope {
         }
     }
 
- suspend fun checkBal(){
+ private suspend fun checkBal(){
     ApiService.loginApiCall().getFee().enqueue(object : Callback<FeeResponse> {
         override fun onResponse(
             call: Call<FeeResponse>,
@@ -67,5 +76,9 @@ class CheckBalActivity : AppCompatActivity() , CoroutineScope {
 
     })
 }
+    override fun onDestroy() {
+        super.onDestroy()
+        job.cancel()
+    }
 
 }

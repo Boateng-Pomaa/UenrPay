@@ -9,7 +9,9 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.*
+import com.example.uenrpay.Data.Api.ApiList
 import com.example.uenrpay.Data.Api.ApiService
+import com.example.uenrpay.Data.repository.MainRepository
 import com.example.uenrpay.ui.base.BaseViewModelFactory
 import com.example.uenrpay.ui.main.viewModel.MainViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -32,13 +34,15 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
         get() = Dispatchers.Main + job
 
 
-    lateinit var username: EditText
-    lateinit var password: EditText
+    private lateinit var username: EditText
+    private lateinit var password: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        viewModelFactory = BaseViewModelFactory("","")
+        val apilist = ApiList.loginApiCall()
+        val mainrepo = MainRepository(apilist)
+        viewModelFactory = BaseViewModelFactory(mainrepo)
          viewModel = ViewModelProvider(this,viewModelFactory).get(MainViewModel::class.java)
 
         username = findViewById(R.id.editTextTextPersonName)
@@ -59,7 +63,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
             json.put("Index_Number", username.text.toString())
             json.put("Password", password.text.toString())
 
-            ApiService.loginApiCall().doLogin("","").enqueue(object : Callback<LoginResponse> {
+            ApiService.loginApiCall().doLogin().enqueue(object : Callback<LoginResponse> {
                 override fun onResponse(
                         call: Call<LoginResponse>,
                         response: Response<LoginResponse>

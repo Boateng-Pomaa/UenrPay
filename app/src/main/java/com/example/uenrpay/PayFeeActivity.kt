@@ -9,8 +9,11 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.example.uenrpay.Data.Api.ApiList
 import com.example.uenrpay.Data.Api.ApiService
 import com.example.uenrpay.Data.model.StudentResponse
+import com.example.uenrpay.Data.repository.SecRepository
+import com.example.uenrpay.ui.base.SecViewModelFactory
 import com.example.uenrpay.ui.main.viewModel.SecViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -23,16 +26,15 @@ import kotlin.coroutines.CoroutineContext
 
 
 class PayFeeActivity : AppCompatActivity(), CoroutineScope {
+    private lateinit var viewModel: SecViewModel
+    private lateinit var viewModelFactory: SecViewModelFactory
     private var job: Job = Job()
 
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main + job
 
-    override fun onDestroy() {
-        super.onDestroy()
-        job.cancel()
-    }
-    lateinit var viewModel: SecViewModel
+
+
     var result = findViewById<TextView>(R.id.textView6)
     val verify = findViewById<Button>(R.id.button2)
     val proceed = findViewById<Button>(R.id.button3)
@@ -41,7 +43,10 @@ class PayFeeActivity : AppCompatActivity(), CoroutineScope {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pay_fee)
 
-        ViewModelProvider(this).get(SecViewModel::class.java).also { viewModel = it }
+        val apilist = ApiList.loginApiCall()
+        val mainrepo = SecRepository(apilist)
+        viewModelFactory = SecViewModelFactory(mainrepo)
+        viewModel = ViewModelProvider(this,viewModelFactory).get(SecViewModel::class.java)
 
         result.addTextChangedListener(valid)
 
@@ -74,7 +79,7 @@ class PayFeeActivity : AppCompatActivity(), CoroutineScope {
 
 
     }
-    suspend fun details(){
+    private suspend fun details(){
         ApiService.loginApiCall().getStudent().enqueue(object : Callback<StudentResponse> {
             override fun onResponse(
                 call: Call<StudentResponse>,
@@ -93,7 +98,7 @@ class PayFeeActivity : AppCompatActivity(), CoroutineScope {
 
         })
     }
-    suspend fun proceed(){
+    private suspend fun proceed(){
         ApiService.loginApiCall().getStudent().enqueue(object : Callback<StudentResponse> {
             override fun onResponse(
                 call: Call<StudentResponse>,
@@ -112,5 +117,9 @@ class PayFeeActivity : AppCompatActivity(), CoroutineScope {
             }
 
         })
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        job.cancel()
     }
 }
