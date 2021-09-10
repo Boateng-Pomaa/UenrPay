@@ -7,7 +7,7 @@ import com.example.uenrpay.Data.repository.SecRepository
 import com.example.uenrpay.utils.Resource
 import kotlinx.coroutines.Dispatchers
 
-class SecViewModel (private val secRepository: SecRepository) : ViewModel() {
+class SecViewModel constructor (private val secRepository: SecRepository) : ViewModel() {
 
     fun getStudent() = liveData(Dispatchers.IO) {
         emit(Resource.loading(data = null))

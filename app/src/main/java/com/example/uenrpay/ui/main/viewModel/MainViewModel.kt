@@ -7,7 +7,7 @@ import com.example.uenrpay.Data.repository.MainRepository
 import com.example.uenrpay.utils.Resource
 import kotlinx.coroutines.Dispatchers
 
-class MainViewModel(private val mainRepository: MainRepository ) : ViewModel() {
+class MainViewModel constructor(private val mainRepository: MainRepository ) : ViewModel() {
    fun  doLogin() = liveData(Dispatchers.IO) {
         emit(Resource.loading(data = null))
         try {
