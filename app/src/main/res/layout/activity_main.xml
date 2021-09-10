@@ -12,7 +12,7 @@
         android:layout_height="78dp"
         android:gravity="center"
         android:text="UenrPay Login"
-        android:textColor="@color/teal_200"
+        android:textColor="#03A9F4"
         android:textSize="40sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,17 +24,17 @@
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="98dp"
-        android:layout_height="62dp"
+        android:layout_width="110dp"
+        android:layout_height="54dp"
         android:text="Username"
-        android:textColor="@color/teal_200"
-        android:textSize="14sp"
+        android:textColor="#03A9F4"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/editTextTextPersonName"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.568"
+        app:layout_constraintVertical_bias="0.573"
         tools:ignore="HardcodedText" />
 
     <EditText
@@ -46,10 +46,10 @@
         android:inputType="text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.869"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.576"
+        app:layout_constraintVertical_bias="0.57"
         tools:ignore="LabelFor" />
 
     <TextView
@@ -57,8 +57,8 @@
         android:layout_width="123dp"
         android:layout_height="49dp"
         android:text="Password"
-        android:textColor="@color/teal_200"
-        android:textSize="14sp"
+        android:textColor="#03A9F4"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/editTextTextPassword"
         app:layout_constraintStart_toStartOf="parent"
@@ -86,8 +86,9 @@
         android:layout_width="154dp"
         android:layout_height="58dp"
         android:text="LOGIN"
+        android:textColor="#FFFFFF"
         android:textSize="30sp"
-        app:backgroundTint="@color/teal_200"
+        app:backgroundTint="#03A9F4"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -106,5 +107,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.562"
-        app:srcCompat="@drawable/uenr" />
+        app:srcCompat="@drawable/uenr"
+        tools:ignore="ContentDescription" />
 </androidx.constraintlayout.widget.ConstraintLayout>
