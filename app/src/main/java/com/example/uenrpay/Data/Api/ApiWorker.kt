@@ -25,20 +25,20 @@ object ApiWorker {
 
                 val httpBuilder = OkHttpClient.Builder()
                 httpBuilder
-                        .connectTimeout(300, TimeUnit.SECONDS)
-                        .readTimeout(300, TimeUnit.SECONDS)
-                        .addInterceptor(interceptor)  /// show all JSON in logCat
-                        .addInterceptor { chain ->
-                            val original = chain.request()
+                    .connectTimeout(300, TimeUnit.SECONDS)
+                    .readTimeout(300, TimeUnit.SECONDS)
+                    .addInterceptor(interceptor)  /// show all JSON in logCat
+                    .addInterceptor { chain ->
+                        val original = chain.request()
 
-                            val requestBuilder = original.newBuilder()
+                        val requestBuilder = original.newBuilder()
 //                        .addHeader("Authorization", AUTH)
-                                    .addHeader("Content-Type", "application/json")
-//                            .method(original.method(), original.body())
+                            .addHeader("Content-Type", "application/json")
+                            .method(original.method(), original.body())
 
-                            val request = requestBuilder.build()
-                            chain.proceed(request)
-                        }
+                        val request = requestBuilder.build()
+                        chain.proceed(request)
+                    }
                 mClient = httpBuilder.build()
 
             }
@@ -50,12 +50,12 @@ object ApiWorker {
         get() {
             if (mGsonConverter == null) {
                 mGsonConverter = GsonConverterFactory
-                        .create(
-                                GsonBuilder()
-                                        .setLenient()
-                                        .disableHtmlEscaping()
-                                        .create()
-                        )
+                    .create(
+                        GsonBuilder()
+                            .setLenient()
+                            .disableHtmlEscaping()
+                            .create()
+                    )
             }
             return mGsonConverter!!
         }
